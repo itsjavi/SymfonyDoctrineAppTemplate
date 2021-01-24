@@ -1,5 +1,3 @@
-FROM composer:2.0 as composer
-
 FROM php:7.4-fpm
 
 RUN apt-get update && \
@@ -17,5 +15,4 @@ WORKDIR /usr/src/app
 
 RUN PATH=$PATH:/usr/src/app/vendor/bin:bin
 
-RUN composer install --no-scripts --prefer-dist \
-  && rm -rf "$(composer config cache-dir)" "$(composer config data-dir)"
+COPY --from=composer:2.0 /usr/bin/composer /usr/local/bin/composer
